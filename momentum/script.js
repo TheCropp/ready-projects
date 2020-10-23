@@ -1,11 +1,14 @@
 // DOM Elements
 const time = document.querySelector('.time'),
+  datetime = document.querySelector ('.datetime'),
   greeting = document.querySelector('.greeting'),
   name = document.querySelector('.name'),
   focus = document.querySelector('.focus');
 
+var days = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+var monthes = ["Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря"];
 // Options
-const showAmPm = true;
+const showAmPm = false;
 
 // Show Time
 function showTime() {
@@ -14,17 +17,14 @@ function showTime() {
     min = today.getMinutes(),
     sec = today.getSeconds();
 
-  // Set AM or PM
-  const amPm = hour >= 12 ? 'PM' : 'AM';
-
-  // 12hr Format
-  hour = hour % 12 || 12;
+    day = days[today.getDay()];
+    number = today.getDate();
+    month = monthes[today.getMonth()];
 
   // Output Time
-  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(
-    sec
-  )} ${showAmPm ? amPm : ''}`;
-
+  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(sec)}
+   ${showAmPm ? amPm : ''}`;
+  datetime.innerHTML = `${day}<span>, </span>${number}<span> </span>${month}`;
   setTimeout(showTime, 1000);
 }
 
@@ -44,7 +44,7 @@ function setBgGreet() {
       "url('https://i.ibb.co/7vDLJFb/morning.jpg')";
     greeting.textContent = 'Good Morning, ';
   } else if (hour < 18) {
-    // Afternoon
+    // Afternoons
     document.body.style.backgroundImage =
       "url('https://i.ibb.co/3mThcXc/afternoon.jpg')";
     greeting.textContent = 'Good Afternoon, ';
@@ -59,7 +59,7 @@ function setBgGreet() {
 
 // Get Name
 function getName() {
-  if (localStorage.getItem('name') === null) {
+  if (localStorage.getItem('name') === '') {
     name.textContent = '[Enter Name]';
   } else {
     name.textContent = localStorage.getItem('name');
